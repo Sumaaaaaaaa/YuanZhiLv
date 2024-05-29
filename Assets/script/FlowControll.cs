@@ -10,9 +10,12 @@ using UnityEngine;
 public class FlowControll : MonoBehaviour
 {
 
-    // ※ 细节规则：一切对逻辑层面的调用应当是瞬间完成的，故使用Function ※
-    // ※ 细节规则：一切对动画的调用应当是等待的，故使用Coroutine ※
+    // ※ 细节规则：一切对*逻辑*层面的调用应当是*瞬间*完成的，故使用Function ※
+
+    // ※ 细节规则：一切对*视觉*的调用应当是*等待*的，故使用Coroutine ※
+
     // ※ 细节规则：最后按顺序放入Main协程中，即可按顺序的执行了 ※
+
     // ※ 会直接在程序开始时执行Main程序 ※
     
     // 在逻辑层面生成地图
