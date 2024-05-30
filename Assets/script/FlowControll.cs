@@ -59,6 +59,7 @@ public class FlowControll : MonoBehaviour
     // 抽选角色
     private IEnumerator SelectCharacter()
     {
+        
         // 前处理
 
         // 等待玩家操作 + 动画
