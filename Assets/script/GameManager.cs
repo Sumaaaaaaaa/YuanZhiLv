@@ -1,6 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+// 玩家标记符
+public enum PlayerTag
+{
+    A, B
+}
+
 
 /// <summary>
 /// 一切游戏全程可能用到的重要的数据（不可变、可变）都放在这，使用静态数据
@@ -11,16 +16,21 @@ public class GameManager : MonoBehaviour
     static private GameManager _instance;
 
     // -----------------------地图部分-----------------------
-    // 地图大小设定
-    [SerializeField] private Vector2Int _mapSize = new Vector2Int();
+    [SerializeField] private Vector2Int _mapSize = new Vector2Int(); // 地图大小设定
     static public Vector2Int MapSize
     {
         get
         { return _instance._mapSize; }
     }
-    // 地图矩阵
-    static public GameObject[,] map;
+    static public GameObject[,] map;// 地图矩阵
     // ------------------------------------------------------
+
+
+    // -----------------------流程控制-----------------------
+    static public PlayerTag player; // 现在正在玩游戏的人是哪个玩家
+    //-------------------------------------------------------
+
+
 
 
     private void Awake()
