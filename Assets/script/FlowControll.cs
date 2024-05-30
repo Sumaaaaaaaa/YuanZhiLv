@@ -9,10 +9,11 @@ using UnityEngine;
 /// </summary>
 public class FlowControll : MonoBehaviour
 {
+    [SerializeField]private TilemapController tilemapController;
 
     // ※ 细节规则：一切对*逻辑*层面的调用应当是*瞬间*完成的，故使用Function ※
 
-    // ※ 细节规则：一切对*视觉*的调用应当是*等待*的，故使用Coroutine ※
+    // ※ 细节规则：一切对*视觉*的调用应当是*等待*的，故使用Coroutine（为了标准化，尽管是瞬时完成的动作也应该使用Coroutine）※
 
     // ※ 细节规则：最后按顺序放入Main协程中，即可按顺序的执行了 ※
 
@@ -25,11 +26,11 @@ public class FlowControll : MonoBehaviour
         Debug.Log($"完成[{nameof(GeneralMap)}]，在数据层面生成了 {GameManager.MapSize.x},{GameManager.MapSize.y} 的矩阵");
 
         string printText = "";
-        for (int i = GameManager.MapSize.y - 1; i >= 0; i--)
+        for (int y = GameManager.MapSize.y - 1; y >= 0; y--)
         {
-            for (int j = 0; j < GameManager.MapSize.y; j++)
+            for (int x = 0; x < GameManager.MapSize.x; x++)
             {
-                printText += GameManager.map[i, j] is null ? "O" : "X";
+                printText += GameManager.map[x, y] is null ? "O" : "X";
             }
             printText+= "\n";
         }
@@ -37,6 +38,7 @@ public class FlowControll : MonoBehaviour
     }
     private IEnumerator IE_GeneralMap()
     {
+        tilemapController.GenralMap();
         yield return new WaitForSeconds(1.0f);
         Debug.Log($"完成[{nameof(IE_GeneralMap)}]");
     }

@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     // 它是单例模式的
     static private GameManager _instance;
 
-    // 地图部分
+    // -----------------------地图部分-----------------------
     // 地图大小设定
     [SerializeField] private Vector2Int _mapSize = new Vector2Int();
     static public Vector2Int MapSize
@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     }
     // 地图矩阵
     static public GameObject[,] map;
+    // ------------------------------------------------------
 
 
     private void Awake()

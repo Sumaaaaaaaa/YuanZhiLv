@@ -1,4 +1,4 @@
-using System.Collections;
+锘縰sing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -13,64 +13,41 @@ public class TilemapController : MonoBehaviour
     {
         tilemap = GetComponent<Tilemap>();
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            for (int i = 0; i < GameManager.MapSize.y; i++)
-            {
-                for (int j = 0; j < GameManager.MapSize.x; j++)
-                {
-                    if ((i+j)%2 == 0)
-                    {
-                        tilemap.SetTile(new Vector3Int(j, i, 0), tileA);
-                    }
-                    else
-                    {
-                        tilemap.SetTile(new Vector3Int(j, i, 0), tileB);
-                    }
-                    
-                }
-            }
-        }
-    }
     public void GenralMap()
     {
-
-    }
-
-    /*```csharp
-    using UnityEngine;
-    using UnityEngine.Tilemaps;
-
-    public class TilemapController : MonoBehaviour
-    {
-        // Tilemap对象的引用
-        public Tilemap tilemap;
-
-        // 要设置到Tilemap上的Tile对象的引用
-        public Tile tile;
-
-        // Use this for initialization
-        void Start()
+        // 娓呯┖鎵�鏈塗iles
+        tilemap.ClearAllTiles();
+        // 鐢熸垚鍦板浘
+        for (int i = 0; i < GameManager.MapSize.y; i++)
         {
-            // 确保tilemap和tile已经被设置
-            if (tilemap == null || tile == null)
+            for (int j = 0; j < GameManager.MapSize.x; j++)
             {
-                Debug.LogError("Tilemap or Tile is not assigned!");
-                return;
+                if ((i + j) % 2 == 0)
+                {
+                    tilemap.SetTile(new Vector3Int(j, i, 0), tileA);
+                }
+                else
+                {
+                    tilemap.SetTile(new Vector3Int(j, i, 0), tileB);
+                }
+
             }
-
-            // 在特定的位置设置一个Tile
-            Vector3Int position = new Vector3Int(0, 0, 0);
-            tilemap.SetTile(position, tile);
-
-            // 例子：清除一个Tile
-            // tilemap.SetTile(position, null);
-
-            // 例子：获取一个Tile
-            // TileBase retrievedTile = tilemap.GetTile(position);
-            // Debug.Log(retrievedTile != null ? "Tile exists" : "Tile does not exist");
         }
-    }*/
+        // 灏嗙浉鏈哄鍑嗗埌鍦板浘涓ぎ
+        Bounds tilemapBounds = tilemap.localBounds;
+        float tilemapWidth = tilemapBounds.size.x;
+        float tilemapHeight = tilemapBounds.size.y;
+        // 鑾峰彇鐩告満鐨勫睆骞曞楂樻瘮
+        float screenAspect = (float)Screen.width / (float)Screen.height;
+        // 鐩告満瀵瑰噯
+        float cameraSize = tilemapHeight / 2.0f;
+        if (tilemapWidth / screenAspect > tilemapHeight)
+        {
+            cameraSize = tilemapWidth / 2.0f / screenAspect;
+        }
+        Camera.main.orthographicSize = cameraSize;
+        Camera.main.transform.position = new Vector3(tilemapBounds.center.x,
+                                                    tilemapBounds.center.y,
+                                                    Camera.main.transform.position.z);
+    }
 }
