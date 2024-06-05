@@ -6,7 +6,7 @@ public class CardManager : MonoBehaviour
 {
     public GameObject cardPrefab; // 卡牌预制件
     public List<Sprite> cardFronts; // 所有卡牌正面的图片列表
-    public Transform cardContainer; // 存放卡牌的容器
+    public Transform cardContainer; // 存放卡牌的UI的容器
     public int totalCards = 21; // 卡牌总数
     public int maxSelections = 5; // 最大选择数量
     private List<GameObject> selectedCards = new List<GameObject>();
@@ -36,7 +36,7 @@ public class CardManager : MonoBehaviour
 
     void GenerateCards()
     {
-        // 创建一个随机序列
+        // 创建一个随机序列（int）
         List<int> randomIndices = new List<int>();
         for (int i = 0; i < totalCards; i++)
         {
@@ -54,10 +54,9 @@ public class CardManager : MonoBehaviour
                 Debug.LogError("FlipCard component is missing on the card prefab.");
                 continue;
             }
-
+            // 获得一个随机的Sprite赋值给 生成的卡片
             int randomIndex = randomIndices[i];
             flipCard.cardFront = cardFronts[randomIndex];
-            flipCard.cardBack = cardPrefab.GetComponent<FlipCard>().cardBack;
 
             Button button = card.GetComponent<Button>();
             if (button == null)
@@ -70,7 +69,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    void Shuffle(List<int> list)
+    static private void Shuffle(List<int> list)
     {
         for (int i = 0; i < list.Count; i++)
         {
@@ -83,19 +82,11 @@ public class CardManager : MonoBehaviour
 
     void SelectCard(GameObject card)
     {
-        if (selectedCards.Contains(card))
+        if (!selectedCards.Contains(card) & (selectedCards.Count < maxSelections))
         {
-            selectedCards.Remove(card);
-            card.GetComponent<Image>().color = Color.white; // 恢复原色
-        }
-        else
-        {
-            if (selectedCards.Count < maxSelections)
-            {
-                selectedCards.Add(card);
-                card.GetComponent<Image>().color = Color.green; // 选中后变色
-                card.GetComponent<FlipCard>().Flip();
-            }
+            selectedCards.Add(card);
+            card.GetComponent<Image>().color = Color.green; // 选中后变色
+            card.GetComponent<FlipCard>().Flip();
         }
     }
     public List<Sprite> GetSelectedCards()
