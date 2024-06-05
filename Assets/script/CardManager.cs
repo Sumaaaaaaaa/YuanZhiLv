@@ -10,7 +10,7 @@ public class CardManager : MonoBehaviour
     public int totalCards = 21; // 卡牌总数
     public int maxSelections = 5; // 最大选择数量
     private List<GameObject> selectedCards = new List<GameObject>();
-
+    
     void Start()
     {
         if (cardPrefab == null)
@@ -98,4 +98,24 @@ public class CardManager : MonoBehaviour
             }
         }
     }
+    public List<Sprite> GetSelectedCards()
+    {
+        List<Sprite> selectedCardFronts = new List<Sprite>();
+        foreach (GameObject card in selectedCards)
+        {
+            FlipCard flipCard = card.GetComponent<FlipCard>();
+            if (flipCard != null)
+            {
+                selectedCardFronts.Add(flipCard.cardFront);
+            }
+        }
+        return selectedCardFronts;
+    }
+
+    public int SelectedCardCount()
+    {
+        return selectedCards.Count;
+    }
 }
+
+

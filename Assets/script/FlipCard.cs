@@ -1,16 +1,25 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+
 public class FlipCard : MonoBehaviour
 {
     public Sprite cardFront; // 卡牌正面的图片
     public Sprite cardBack;  // 卡牌背面的图片
-    public bool isFlipped = false;
+    public bool isFlipped = false; // 卡牌是否已经翻转
     private Image image;
+
     void Start()
     {
         image = GetComponent<Image>();
-        image.sprite = cardBack;
+        if (isFlipped)
+        {
+            image.sprite = cardFront; // 如果卡牌已经翻转，则显示正面
+        }
+        else
+        {
+            image.sprite = cardBack; // 否则显示背面
+        }
     }
 
     public void Flip()
