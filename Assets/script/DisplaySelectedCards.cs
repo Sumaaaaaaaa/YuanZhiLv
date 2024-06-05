@@ -27,7 +27,6 @@ public class DisplaySelectedCards : MonoBehaviour
             if (flipCard != null)
             {
                 flipCard.cardFront = cardFront;
-                //flipCard.cardBack = cardPrefab.GetComponent<FlipCard>().cardBack;
 
                 // 设置卡牌的正面图片
                 Image image = card.GetComponent<Image>();

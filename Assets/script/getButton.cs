@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,10 +8,11 @@ public class getButton : MonoBehaviour
 {
     public Button decideButton; // 决定按钮
     public CardManager cardManager; // 卡牌管理器
+    public Action<string[]> finishAction;
 
     void Start()
     {
-        decideButton.onClick.AddListener(OnDecideButtonClicked);
+        decideButton.onClick.AddListener(OnButtonClick);
         decideButton.interactable = false; // 初始时禁用按钮
     }
 
@@ -28,22 +30,15 @@ public class getButton : MonoBehaviour
         }
     }
 
-    void OnDecideButtonClicked()
+    void OnButtonClick()
     {
-        // 获取选择的卡牌
-        List<Sprite> selectedCards = cardManager.GetSelectedCards();
-
-        if (SelectedCards.Instance != null)
+        List<Sprite> selectedcard = cardManager.GetComponent<CardManager>().GetSelectedCards();
+        List<string> returnStrings = new List<string>();
+        foreach(Sprite i in selectedcard)
         {
-            // 存储选择的卡牌
-            SelectedCards.Instance.cards = selectedCards;
-
-            // 切换到下一个场景
-            SceneManager.LoadScene("duel"); // 确保这个名称与构建设置中的名称一致
+            returnStrings.Add(i.name);
         }
-        else
-        {
-            Debug.LogError("SelectedCards instance is null.");
-        }
+        finishAction(returnStrings.ToArray());
+        return;
     }
 }

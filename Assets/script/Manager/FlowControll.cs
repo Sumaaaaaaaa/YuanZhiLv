@@ -8,12 +8,20 @@ using UnityEngine;
 public class FlowControll : MonoBehaviour
 {
     [SerializeField] private TilemapController tilemapController;
+    [SerializeField] private Canvas Canvas;
 
-    // ※ 细节规则：一切对*逻辑*层面的调用应当是*瞬间*完成的，故使用Function ※
-    // ※ 细节规则：一切对*视觉*的调用应当是*等待*的，故使用Coroutine（为了标准化，尽管是瞬时完成的动作也应该使用Coroutine）※
+    // ※ 细节规则：一切对*逻辑*层面的调用应当是*瞬间*完成的，故使用方法 ※
+    // ※ 细节规则：一切对*视觉*、*操作*的调用应当是*等待*的，故使用Coroutine（为了标准化，尽管是瞬时完成的动作也应该使用Coroutine）※
     // ※ 细节规则：最后按顺序放入Main协程中，即可按顺序的执行了 ※
     // ※ 会直接在程序开始时执行Main程序 ※
     // 通用方法
+    private IEnumerator Main()
+    {
+        yield return SelectCharacter();
+        yield return SelectCharacter();
+        yield break;
+    }
+
     private void ChangePlayer() // 切换游戏玩家
     {
         if (GameManager.player == PlayerTag.A)
@@ -56,68 +64,51 @@ public class FlowControll : MonoBehaviour
         Debug.Log($"完成[{nameof(GeneralMap_IE)}]");
         yield break;
     }
+
+
     // 抽选角色
+    [SerializeField] private GameObject draw_card_visual; // prehab
     private IEnumerator SelectCharacter()
     {
-        // 前处理
+        // 等待帧结束，以防止Destory发生在新的组件被建立之后，导致错误的摧毁
+        yield return new WaitForEndOfFrame();
 
-        // 等待玩家操作 + 动画
+        // 生成选择UI的游戏对象
+        GameObject target = Instantiate(draw_card_visual,Canvas.transform);
 
-        // 操作是否合理，否则让玩家重新操作并重新等待
+        // 创建一个Lambda一路传到按钮上
+        bool draw_card_visual_finished = false;
+        string[] Getcards = null;
+        var target2 = target.GetComponent<DrawCard_FinishTrigger>().action =
+            (string[] cards) => 
+            {
+                draw_card_visual_finished = true;
+                Getcards = cards;
+            };
 
-        // 逻辑层处理
+        // 卡死环节
+        while (!draw_card_visual_finished)
+        {
+            yield return null;
+        }
+        // 完成后
+        foreach(string i in Getcards)
+        {
+            print(i);
+        }
+        
 
-        // 后处理 
+        // 删除UI的所有游戏对象
+        Destroy(target);
 
         // 结束
         yield break;
     }
-    // 放置角色
-    private IEnumerator PlaceCharacter()
-    {
-        // 第一个玩家操作
-        // 前处理
-        // 等待玩家操作
-        // 判定玩家操作合理性(不合理则重新让玩家操作并等待)
-        // PlaceCharacter_A_Logic();
-        // 后处理
-        // 动画
-
-        ChangePlayer();
-
-        // 第二个玩家操作
-        // 前处理
-        // 等待玩家操作
-        // 判定玩家操作合理性(不合理则重新让玩家操作并等待)
-        // PlaceCharacter_A_Logic();
-        // 后处理
-        // 动画
-        // 第二个玩家操作
-
-        yield break;
-    }
-    private void PlaceCharacter_Logic(Vector2Int positon1, GameObject character1,
-                                        Vector2Int positon2, GameObject character2,
-                                        Vector2Int positon3, GameObject character3,
-                                        Vector2Int positon4, GameObject character4,
-                                        Vector2Int positon5, GameObject character5)// 逻辑层处理
-    {
-        GameManager.map[positon1.x, positon1.y] = character1;
-        GameManager.map[positon2.x, positon1.y] = character2;
-        GameManager.map[positon3.x, positon1.y] = character3;
-        GameManager.map[positon4.x, positon1.y] = character4;
-        GameManager.map[positon5.x, positon1.y] = character5;
-    }
 
 
 
 
 
-    private IEnumerator Main()
-    {
-        yield return GeneralMap();
-        yield return SelectCharacter();
-    }
 
 
     private void Start()
