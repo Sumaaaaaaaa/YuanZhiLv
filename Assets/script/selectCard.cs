@@ -4,7 +4,7 @@ using UnityEngine;
 public class SelectedCards : MonoBehaviour
 {
     public static SelectedCards Instance { get; private set; }
-    public List<Sprite> cards;
+    public List<Sprite> cards = new List<Sprite>();
 
     void Awake()
     {
@@ -12,7 +12,6 @@ public class SelectedCards : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            cards = new List<Sprite>();
         }
         else
         {

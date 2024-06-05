@@ -14,6 +14,7 @@ public class getButton : MonoBehaviour
         decideButton.interactable = false; // 初始时禁用按钮
     }
 
+    // 逐帧判断是否选择五张卡片，当选择到五张卡片时启用按钮
     void Update()
     {
         // 检查是否选择了五张卡牌

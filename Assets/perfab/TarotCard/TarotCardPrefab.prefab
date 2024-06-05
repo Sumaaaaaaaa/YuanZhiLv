@@ -91,7 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardFront: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   cardBack: {fileID: 21300000, guid: bf56df60b79458d498e85a82b9db69b6, type: 3}
-  isFlipped: 1
+  isFlipped: 0
 --- !u!114 &2703726719582746056
 MonoBehaviour:
   m_ObjectHideFlags: 0
