@@ -22,10 +22,12 @@ public class DisplaySelectedCards : MonoBehaviour
         {
             GameObject card = Instantiate(cardPrefab, cardContainer);
             FlipCard flipCard = card.GetComponent<FlipCard>();
+            // 因为FlipCard有一个start时的反转判定，所以一定要在这里把isFlipped翻为正的
+            flipCard.isFlipped = true;
             if (flipCard != null)
             {
                 flipCard.cardFront = cardFront;
-                flipCard.cardBack = cardPrefab.GetComponent<FlipCard>().cardBack;
+                //flipCard.cardBack = cardPrefab.GetComponent<FlipCard>().cardBack;
 
                 // 设置卡牌的正面图片
                 Image image = card.GetComponent<Image>();
