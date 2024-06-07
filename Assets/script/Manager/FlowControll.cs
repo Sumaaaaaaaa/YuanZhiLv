@@ -19,6 +19,7 @@ public class FlowControll : MonoBehaviour
     {
         yield return SelectCharacter();
         yield return SelectCharacter();
+        yield return GeneralMap();
         yield break;
     }
 
